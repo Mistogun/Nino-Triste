@@ -4,29 +4,33 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-	public float speed;
-	public float maxSpeed;
-	private Vector3 position;
+	public float speed = 5f;
+	public float maxSpeed;  //Sin usar 
 
+	private int[] objetosColeccionados = new int[3];	//guarda los objetos que se han coleccionado
+	//hacer una variable para el objeto que tenga actualmente
 
     void Update()
     {
-		Vector3 aux = this.transform.position;
-        if(Input.GetKey(KeyCode.A))
+		Movement();
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.tag == "Objeto")
 		{
-			this.transform.position = new Vector3(aux.x - speed * Time.deltaTime, aux.y, 0f);
+			Object.Destroy(collision.gameObject);
 		}
+	}
+	void Movement()
+	{
+		if (Input.GetKey(KeyCode.A))
+			this.transform.Translate(new Vector3(-speed * Time.deltaTime, 0f, 0f));
 		if (Input.GetKey(KeyCode.D))
-		{
-			this.transform.position = new Vector3(aux.x + speed * Time.deltaTime, aux.y, 0f);
-		}
+			this.transform.Translate(new Vector3(+speed * Time.deltaTime, 0f, 0f));
 		if (Input.GetKey(KeyCode.W))
-		{
-			this.transform.position = new Vector3(aux.x, aux.y + speed * Time.deltaTime, 0f);
-		}
+			this.transform.Translate(new Vector3(0f, +speed * Time.deltaTime, 0f));
 		if (Input.GetKey(KeyCode.S))
-		{
-			this.transform.position = new Vector3(aux.x, aux.y - speed * Time.deltaTime, 0f);
-		}
+			this.transform.Translate(new Vector3(0f, -speed * Time.deltaTime, 0f));
 	}
 }
